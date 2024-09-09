@@ -3,7 +3,64 @@
 Αλεξία Τοπαλίδου 1115201600286
 Στέφανος Μπακλαβάς 1115201700093
 
-https://github.com/altopalido/project2
+This project focuses on implementing algorithms for nearest neighbor search and clustering, applied to time series data. It includes:
+
+    1.Implementation of the LSH algorithm based on the L2 metric.
+    2.Implementation of random projection onto the hypercube using L2.
+
+The project includes three main tasks:
+
+    1.Nearest Neighbor Search using LSH, Hypercube, and Frechet methods.
+    2.Clustering of time series using K-means++ for initialization.
+    3.Dimensionality Reduction of time series datasets using grid filtering and Frechet distance algorithms.
+
+
+Task A: Nearest Neighbor Search
+
+    1.LSH Algorithm based on the L2 metric.
+    2.Random Projection onto the hypercube with L2.
+
+    The program takes as input a query vector q and integers N, K, and returns:
+
+      1.The approximate nearest neighbor to q.
+      2.The N nearest neighbors.
+      3.The vectors within radius R from q (range search).
+
+    Distance Metrics:
+
+      1.Each time series is represented as a polygonal curve in R². 
+        The distance between time series is calculated using the discrete Frechet metric. 
+      2.The LSH algorithm is used for discrete Frechet distance.
+      3.For dimensionality reduction, time series are filtered onto a grid, 
+        and distances are computed using the continuous Frechet algorithm.
+
+
+Task B: Clustering using K-means++
+
+    Initialization is done using K-means++ and the following algorithms for assignment:
+
+       1.Lloyd’s algorithm.
+       2.Range search using LSH for Frechet.
+       3.Range search using LSH for vectors.
+       4.Range search using Hypercube.
+
+    Update phase:
+
+       1.Calculate the mean time series as a vector.
+       2.Calculate the mean time series as a curve.
+
+    Clustering updates are based on mean-vector or curve calculations:
+
+       1.Assignment is exact with Lloyd's algorithm and reverse assignment via range search.
+       2.LSH 
+       3.Hypercube projection
+
+
+
+
+
+
+
 
 Για να μεταγλωτιστεί το πρόγραμμα τρέχουμε:
 make 
@@ -20,41 +77,58 @@ make
 ./executeTests
 
 
-
+Extra comments
 
 Στην παρούσα εργασία υλοποιήθηκαν όλα τα ζητούμενα.
 
-Παράμετρος w : 
-	Η παράμετρος w σε αντίθεση με την προηγούμενη εργασία που έπαιρνε την τιμή της από τις μέσες αποστάσεις των σημείων του dataset αρχικοποιείται αυτόματα με την τιμή 600 καθώς παρατηρήθηκε καλύτερη κατανομή των σημείων στα bucket με αυτήν την τιμή.Με αυτήν την τιμή πολύ λίγα buckets είναι αυτα που έχουν την πλειοψηφία των σημείων του dataset κάτι το οποίο διευκολύνει και στον LSH και στον Hypercube.
+Parameter w:
+
+    w is automatically set to 600. This value provides better distribution of points across buckets, 
+    leading to more balanced bucket filling. As a result, only a few buckets contain the majority of 
+    the dataset points, facilitating both LSH and Hypercube algorithms.
 
 
-Ερώτημα Αi:
-	Στο ερώτημα Αi χρησιμοποιήθηκαν οι αλγόριθμοι της προηγούμενης εργασίας διορθωμένοι σχετικά με τα σχόλια που είχαμε λάβει από τον εξεταστή και έχουν αρκετά γρήγορη απόδοση στο Dataset nasd_input.csv το οποίο δόθηκε για την εξέταση.
-	
-	
-Ερώτημα Αii:
-	Στο ερώτημα Αii υλοποιήθηκε ο αλγόριθμος Discrete Frechet για δισδιάστατες καμπύλες.Σε κάθε καμπύλη που παίρνουμε από το dataset θεωρούμε ότι λείπει η συντεταγμένη του χρόνου χ.Για αυτόν τον λόγο κάθε φορά που διαβάζουμε μία γραμμή από το αρχείο την προσθέτουμε βηματικά.Επίσης αφού δημιουργηθεί το grid_curve αφαιρούνται από αυτό τα συνεχόμενα διπλότυπα σημεία και στην συνέχεια γίνεται Padding.Παρ'ότι το hashing γίνεται πάνω σε αυτό το δυάνυμα , στην δομή αποθηκεύεται εν τέλη το αρχικό διάνυσμα.Όταν έρθει ένα query ακολουθείται η ίδια διαδικασία, όμως οι αποστάσεις frechet υπολογίζονται με βάσει τις αρχικές καμπύλες του input.
-H τιμή που χρησιμοποιείται για το e είναι e = 1.2 .Παρατηρείται ότι με αυτό το e οι καμπύλες μειώνονται σε μέγεθος σχεδόν κατά 40%, ενώ πάντα έχει βρεθεί approximate_nearest_neighbor.
 
-Ερώτημα Aiii:	
-	 Στο ερώτημα Αiii υλοποιήθηκε ο αλγόριθμος Continuous Frechet για μονοδιάστατες καμπύλες.Σε κάθε διάνυσμα γίνεται filtering με βάση την σταθερά e η οποία σε αυτην την περιπτωση έχει τιμή e = 0.05 .Στην συνέχεια δημιουργείται η grid_curve πάνω στην οποία εφαρμόζεται min_max_filtering.Η τελική αυτή καμπύλη έχει μικρότερο μήκος από το μισό της αρχική και είναι αυτή η οποία θα γίνει hashed.Στις δομές αποθηκεύεται η αρχική καμπύλη που πήραμε από το αρχείο του input.Όταν έρχεται ένα query.Οι καμπύλες του continuous frechet χρειάζονται τόσο μεγάλο filtering,καθώς η συνάρτηση που υπολογίζει την απόσταση αργεί αρκετά.
+  Discrete Frechet Algorithm for 2D Curves:
+
+    The Discrete Frechet algorithm was implemented for 2D curves. Each curve from the dataset is 
+    treated as lacking a time coordinate (x). To address this, time steps are added incrementally 
+    as each line from the input file is processed. After creating the grid_curve, consecutive duplicate
+    points are removed, followed by padding. Although hashing is performed on this grid curve, the 
+    original vector is stored in the data structure. For queries, the same process is followed, 
+    but the Frechet distances are calculated based on the original input curves.
+    The value for e is set to 1.2. With this value, the curve lengths are reduced by approximately 40%, 
+    while approximate nearest neighbors are always found. 
+
+Continuous Frechet Algorithm for 1D Curves
+
+    The Continuous Frechet algorithm was implemented for 1D curves. Each vector undergoes filtering
+    based on the constant e, set to 0.05 in this case.A grid_curve is then created, followed by min_max_filtering. 
+    This final curve is hashed and is typically less than half the length of the original.
+    The original curve from the input file is stored in the structure. For queries, significant filtering 
+    is necessary for the Continuous Frechet algorithm because the distance calculation function is time-consuming.
 	 
 	 
-	 
-	 
-Ερώτημα Β:
-	Για το ερώτημα Β υλοποιήθηκαν όλα τα ζητούμενα.
-	Μερικές παρατηρήσεις:
-		1.Το e = 1.2 και το δ = 1.
-	  	2.Όταν χρησιμοποιείται ο αλγόριθμος lsh_frechet επειδή το μήκος των καμπυλών 		είναι πολύ μεγάλο γίνεται filtering στον Exact_loyd.
-	  	3.Σε κάθε βήμα που δύο κόμβοι του δέντρου συνδιάζονται για να δημιουργηθεί νέα 			μέση καμπύλη  γίνεται e_filtering και αν αυτο δεν εχει αποτέλεσμα γίνεται και 			min_max_filtering
-	  	4.Γενικά επειδή υπάρχει και μεγάλος βαθμος τυχαιότητας υπάρχει περίπτωση στο 		Range_Search του clustering να μην γίνει assign κάποιο σημείο με LSH και να 			γίνει στο τέλος με Loyd
-	  	5.Τα κριτήρια για να σταματήσει ο Range_Search_Clustering να διπλασιάζει την 		ακτίνα και να προχωρήσει στο επόμενο iteration είναι τα εξής:
-	  		α.Να έχει ανατεθεί στα clusters το 70% των σημείνω του dataset.
-	  		b.Να μην έχει κανένα cluster κανένα σημείο
-	  		c.Nα φτάσει η ακτίνα σε μέγεθος το δεκαπλάσιο της απόστασης μεταξύ των 				  πιο απομακρυσμένων κεντροειδών που είχαν επιλεχθεί με kmeans++
+
+Question B: Clustering and Frechet-Based Algorithms
+
+
+Key Observations:
+
+    The value of e is 1.2, and the value of δ is 1.0.
+    When using the lsh_frechet algorithm, due to the large length of the curves, filtering 
+    is applied in the Exact_Lloyd phase. During each step, when two nodes of the clustering 
+    tree are combined to form a new mean curve, e_filtering is applied. If this is insufficient, 
+    min_max_filtering is performed as well.
+    Due to the high degree of randomness, it is possible that during the Range Search Clustering, 
+    some points may not be assigned to a cluster via LSH 
+    and will be assigned later using Lloyd’s algorithm.
+    The criteria for terminating the Range_Search_Clustering radius doubling and proceeding to the next iteration are:
+        a. 70% of the dataset points must be assigned to clusters.
+        b. No cluster has any points.
+        c. The radius reaches 10 times the distance between the most distant centroids selected using K-means++.
+
 	
-		Συνολικά ο Range_Search_Clustering κάνει συγκεκριμένες φορές update ο αριθμός 			των οποίων μπαίνει ως παράμετρος. Ύστερα τερματίζει 
 		
 		
 	
