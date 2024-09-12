@@ -1,0 +1,20 @@
+
+Query: aeri
+Algorithm: LSH_Frechet_Continuous
+Approximate Nearest neighbor-0: aat
+True Nearest neighbor-0: abcb
+distanceApproximate: 23.747
+distanceTrue: 16.2
+
+Query: aes
+Algorithm: LSH_Frechet_Continuous
+Approximate Nearest neighbor-0: abac
+True Nearest neighbor-0: acre
+distanceApproximate: 8.58
+distanceTrue: 3.014
+
+
+
+tApproximateAverage: 2.5
+tTrueAverage: 30
+MAF: 2.84672 [Maximum Approximation Factor]

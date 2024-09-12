@@ -1,0 +1,29 @@
+
+valgrind  --trace-children=yes --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./search -i ./nasdaq_test.txt -q ./query.txt -k 4 -L 5 -M 1000000 -probes 2 -o ./output_continuous.txt -algorithm Frechet -metric continuous -delta 1
+
+
+./search -i ./nasdaq_test.txt -q ./query.txt -k 4 -L 5 -M 1000000 -probes 2 -o ./out_discrete_frechet.txt -algorithm Frechet -metric discrete -delta 1
+
+./search -i ./nasdaq_test.txt -q ./query.txt -k 4 -L 5 -M 1000000 -probes 2 -o ./output_continuous_frechet.txt -algorithm Frechet -metric continuous -delta 1
+
+./search -i ./nasd_input.csv -q ./query.txt -k 4 -L 5 -M 1000000 -probes 2 -o ./output_LSH -algorithm LSH -delta 1
+
+
+./search -i ./nasd_input.csv -q ./nasd_query.csv -k 4 -L 5 -M 1000000 -probes 2 -o ./output_Hypercube -algorithm Hypercube -delta 1
+
+
+./cluster -i ./nasdaq_test.txt -c cluster.conf -o ./output.txt -update Mean Frechet -assignment LSH_Frechet -silhouette
+
+./cluster -i ./nasdaq_test.txt -c cluster.conf -o ./output.txt -update Mean Frechet -assignment Classic -complete 
+
+
+
+./cluster -i ./nasdaq_test.txt -c cluster.conf -o ./output.txt -update Mean Vector -assignment Classic -complete -silhouette  
+
+
+./cluster -i ./nasdaq_test.txt -c cluster.conf -o ./output.txt -update Mean Vector -assignment LSH -complete 
+
+./cluster -i ./nasdaq_test.txt -c cluster.conf -o ./output.txt -update Mean Vector -assignment Hypercube -complete 
+
+
+

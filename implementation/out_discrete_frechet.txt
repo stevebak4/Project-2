@@ -1,0 +1,24 @@
+
+Query: aeri
+Algorithm: LSH_Frechet_Discrete
+Approximate Nearest neighbor-0: abcb
+True Nearest neighbor-0: abcb
+distanceApproximate: 17.1672
+distanceTrue: 17.1672
+tLSH: 36
+tTrue: 46
+
+Query: aes
+Algorithm: LSH_Frechet_Discrete
+Approximate Nearest neighbor-0: abdc
+True Nearest neighbor-0: abdc
+distanceApproximate: 3.4488
+distanceTrue: 3.4488
+tLSH: 44
+tTrue: 45
+
+
+
+tApproximateAverage: 40
+tTrueAverage: 45.5
+MAF: 1 [Maximum Approximation Factor]
