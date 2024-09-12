@@ -1,4 +1,4 @@
-# project2
+# project2: Time Series Search and Clustering using K-means++, LSH, Hypercube Projection, and Frechet Distance
 
 Αλεξία Τοπαλίδου 1115201600286
 Στέφανος Μπακλαβάς 1115201700093
